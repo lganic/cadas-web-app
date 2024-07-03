@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Browser</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="sidenav">
+        <img src="{{ url_for('static', filename='img/cadas.png') }}" alt="CADAS" width="80%" style="display: block; margin-left: auto; margin-right: auto;">
+        &nbsp;
+        <a href="/home">Home</a>
+        <a href="https://cadas.fit.edu/">CADAS Webpage</a>
+        <a href="/catalog">Catalog</a>
+      </div>
+
+      <div class ="main">
+    <div class="container">
+        <table class="header-table">
+            <tr>
+                <td class="title-cell">
+                    <h1 class="title">Sample Data View</h1>
+                </td>
+                <td class="button-cell">
+                    <a href="/download/dataset.zip" class="download-link">
+                        <button class="downloadbutton">
+                            Download!
+                            <img src="{{ url_for('static', filename='img/download.png') }}" alt="Download">
+                        </button>
+                    </a>
+                </td>
+            </tr>
+        </table>
+        <div id="other-content">
+
+            <h3>This is a dataset created for testing and example purposes.</h3>
+
+            <p>This is other content on the page that remains unaffected by the interactive elements.</p>
+            <p>To prove it, heres a random number: <span id="random-number"></span></p>
+            <p>If the number ever changes, it means this content was reloaded</p>
+
+            <div id="chart"></div>
+            <script>
+            fetch('/data')
+            .then(response => response.json())
+            .then(data => {
+                var traces = data.categories.map((category, i) => ({
+                    x: data.dates,
+                    y: data.values[i],
+                    name: category,
+                    type: 'bar'
+                }));
+
+                var layout = {
+                    title: {
+                        text: 'Sample OpenSearch Graph',
+                        font: {
+                            family: 'Arial, sans-serif',
+                            size: 24,
+                            color: '#e0e0e0'
+                        }
+                    },
+                    barmode: 'stack',
+                    paper_bgcolor: '#1e1e1e',
+                    plot_bgcolor: '#1e1e1e',
+                    xaxis: {
+                        title: {
+                            text: 'Date/Time',
+                            font: {
+                                family: 'Arial, sans-serif',
+                                size: 18,
+                                color: '#e0e0e0'
+                            }
+                        },
+                        tickfont: {
+                            family: 'Arial, sans-serif',
+                            size: 14,
+                            color: '#e0e0e0'
+                        },
+                        gridcolor: '#444'
+                    },
+                    yaxis: {
+                        title: {
+                            text: 'Number of Audio Clips',
+                            font: {
+                                family: 'Arial, sans-serif',
+                                size: 18,
+                                color: '#e0e0e0'
+                            }
+                        },
+                        tickfont: {
+                            family: 'Arial, sans-serif',
+                            size: 14,
+                            color: '#e0e0e0'
+                        },
+                        gridcolor: '#444'
+                    },
+                    hovermode: 'closest',
+                    font: {
+                        color: '#e0e0e0'
+                    }
+                };
+
+                Plotly.newPlot('chart', traces, layout);
+            });
+            </script>
+
+                <p>Metadata View:</p>
+            <button class="collapsible">Click to view metadata format ▼</button>
+            <div class="content">
+            <pre class="prettyprint">{
+"doc_name": "0027daf0-2f3e-4c4d-9f56-adfc3c791b3f",  // Unique identifier for the document.
+"device": {  // Information about the device used to collect the data.
+    "device_manufacturer": "Raspberry Pi",  // The manufacturer of the device.
+    "device_model": "Zero W",  // The model of the device.
+    "device_hostname": "P4",  // The hostname assigned to the device.
+    "mac_address": "b8:27:eb:3f:fb:d6",  // The MAC address of the device.
+    "local_ip": "192.168.0.122",  // The local IP address of the device.
+    "global_ip": "163.118.203.162",  // The global IP address of the device.
+    "location": {  // Geographic location of the device.
+    "lat": 28.516925,  // Latitude of the device's location.
+    "lon": -80.798625  // Longitude of the device's location.
+    },
+    "location_precision": "manual"  // Precision of the location data (e.g., manual, GPS).
+},
+"filename": "0027daf0-2f3e-4c4d-9f56-adfc3c791b3f",  // Name of the file containing the audio data.
+"extension": "wav",  // File extension of the audio data.
+"data_type": "audio",  // Type of data contained in the file.
+"sample_rate": 44100.0,  // Sample rate of the audio data in Hz.
+"time": "2022-06-01T03:58:23Z",  // Timestamp of when the data was collected.
+"models": [  // List of machine learning models used for analysis.
+    "torchscript-AudiCBERT-0-ZeroData+_v28-noise_5-aug-hlr.pth"
+],
+"events": [  // List of detected events in the audio data.
+    {
+    "location": {  // Time location of the event in the audio clip.
+        "start": 0.0,  // Start time of the event in seconds.
+        "end": 2.0  // End time of the event in seconds.
+    },
+    "classifications": [  // Classifications assigned to the event.
+        "helicopter"
+    ],
+    "labels": [  // Labels assigned to the event.
+        "helicopter"
+    ],
+    "confidences": [  // Confidence scores for the classifications.
+        0.9058611989021301
+    ],
+    "inf_time": 1.7850589752197266,  // Inference time taken by the model for this event in seconds.
+    "model": "torchscript-AudiCBERT-0-ZeroData+_v28-noise_5-aug-hlr.pth"  // Machine learning model used for this event.
+    },
+    {
+    "location": {
+        "start": 2.0,
+        "end": 4.0
+    },
+    "classifications": [
+        "likely_helicopter",
+        "likely_airplane"
+    ],
+    "labels": [
+        "helicopter",
+        "airplane"
+    ],
+    "confidences": [
+        0.5074732303619385,
+        0.5979779362678528
+    ],
+    "inf_time": 0.9521715641021729,
+    "model": "torchscript-AudiCBERT-0-ZeroData+_v28-noise_5-aug-hlr.pth"
+    }
+],
+"volume": {  // Volume metrics of the audio data.
+    "rms": 2.02408766746521,  // Root mean square value of the audio volume.
+    "max": 7,  // Maximum volume level of the audio.
+    "min": -8  // Minimum volume level of the audio.
+},
+"processing": {  // Processing time metrics.
+    "proc_time": 10.489821672439575,  // Total processing time for the audio data in seconds.
+    "total_inf_time": 7.0844550132751465,  // Total inference time for all events in the audio data in seconds.
+    "spec_time": 3.383901834487915  // Time taken to compute the spectrogram in seconds.
+},
+"mic_name": "seeed-2mic-voicecard: bcm2835-i2s-wm8960-hifi wm8960-hifi-0 (hw:0,0)",  // Name and description of the microphone used to record the audio.
+"audio_length": 16.0,  // Length of the audio clip in seconds.
+"time_offset": 0.02463915945716709,  // Offset time for the audio recording.
+"num_events": 8  // Number of events detected in the audio clip.
+}
+                </pre>
+            </div>
+        </div>
+        &nbsp;
+        <div class="grid-outer-container" id="gridbox">
+            <div class="breadcrumb" id="breadcrumb"></div>
+            <div class="grid-container" id="grid-container"></div>
+            <div id="loading-spinner" class="spinner"></div>
+        </div>
+        <div id="file-preview">
+            <h2 id="file-preview-header">Click a file to show a preview</h2>
+            <div id="preview-content"></div>
+        </div>
+    </div>
+</div>
+    <script>
+        const socket = io();
+
+        // Generate and display a random number
+        function generateRandomNumber() {
+            const randomNumber = Math.floor(Math.random() * 1000);
+            document.getElementById('random-number').innerText = randomNumber;
+        }
+
+        socket.on('connect', () => {
+            generateRandomNumber();
+            socket.emit('navigate', '');
+        });
+
+        socket.on('update_files', (data) => {
+            const { directories, files, path, total_files } = data;
+
+            // Hide loading spinner
+            document.getElementById('loading-spinner').style.display = 'none';
+
+            const breadcrumb = document.getElementById('breadcrumb');
+            const fileCount = files.length;
+            const folderCount = directories.length;
+
+            breadcrumb.innerHTML = `<a href="javascript:navigate('')">Home</a>`;
+            path.split('/').forEach((segment, index, arr) => {
+                if (segment) {
+                    const subPath = arr.slice(0, index + 1).join('/');
+                    breadcrumb.innerHTML += ` ▶ <a href="javascript:navigate('${subPath}')">${segment}</a>`;
+                }
+            });
+
+            breadcrumb.innerHTML += ` (${fileCount} files, ${folderCount} directories)`;
+
+            if (total_files > 200) {
+                breadcrumb.innerHTML += ` <span style="color: red;">Showing first 200 files out of ${total_files}</span>`;
+            }
+
+            const gridContainer = document.getElementById('grid-container');
+            gridContainer.innerHTML = '';
+            directories.forEach(directory => {
+                const dirName = directory.split('/').slice(-2, -1)[0];
+                gridContainer.innerHTML += `<div class="grid-item"><a href="javascript:navigate('${directory}')"><img src="{{ url_for('static', filename='img/folder.png') }}" alt="Folder"><hr>${dirName}</a></div>`;
+            });
+            files.forEach(file => {
+                const fileName = file.split('/').slice(-1)[0];
+                const fileExtension = fileName.split('.').slice(-1)[0];
+                let filePreviewFunction = '';
+                if (fileExtension === 'json' || fileExtension === 'wav') {
+                    filePreviewFunction = `javascript:previewFile('${file}')`;
+                }
+                let imgSrc = '';
+                if (fileExtension === 'json'){
+                    imgSrc = '{{ url_for("static", filename="img/data.png") }}';
+                } else if (fileExtension === 'wav'){
+                    imgSrc = '{{ url_for("static", filename="img/music.png") }}';
+                } else {
+                    imgSrc = '{{ url_for("static", filename="img/file.png") }}';
+                }
+                gridContainer.innerHTML += `<div class="grid-item"><a href="${filePreviewFunction}"><img src="${imgSrc}" alt="File"><hr>${fileName}</a></div>`;
+            });
+        });
+
+        function navigate(path) {
+            // Clear existing folders
+            document.getElementById('grid-container').innerHTML = '';
+
+            // Show loading spinner
+            document.getElementById('loading-spinner').style.display = 'block';
+
+            socket.emit('navigate', path);
+        }
+
+        function previewFile(fileKey) {
+            updatePreviewHeader(fileKey);
+            const previewContent = document.getElementById('preview-content');
+            previewContent.innerHTML = "Loading ..."
+            if (fileKey.endsWith('.json')) {
+                fetch(`/file_content?file_key=${encodeURIComponent(fileKey)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        previewContent.innerHTML = `<pre class="prettyprint">${JSON.stringify(data, null, 2)}</pre>`;
+                        PR.prettyPrint();
+                        scrollToPreview();
+                    })
+                    .catch(error => console.error('Error fetching file content:', error));
+            } else if (fileKey.endsWith('.wav')) {
+                const audio = new Audio(`/file_content?file_key=${encodeURIComponent(fileKey)}`);
+                audio.controls = true;
+                previewContent.innerHTML = '';
+                previewContent.appendChild(audio);
+                scrollToPreview();
+            }
+        }
+
+        function updatePreviewHeader(fileKey) {
+            const previewHeader = document.getElementById('file-preview-header');
+            previewHeader.innerText = `File Preview: ${fileKey}`;
+        }
+
+        function scrollToPreview() {
+            const filePreview = document.getElementById('file-preview');
+            filePreview.scrollIntoView({ behavior: 'smooth' });
+        }
+
+
+        // Setup the collapsible elements
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight){
+            content.style.maxHeight = null;
+            } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+            } 
+        });
+        }
+    </script>
+</body>
+</html>

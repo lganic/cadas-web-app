@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Webpage with Grid</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            overflow-y: auto; /* Enable vertical scrolling */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to the top */
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .textbox {
+            background-color: #333333;
+            color: #ffffff;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            width: 100%;
+            font-size: 16px;
+            margin-bottom: 20px; /* Space between the textbox and grid container */
+        }
+        .grid-outer-container {
+            background-color: #252525;
+            padding: 20px;
+            border-radius: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .grid-item {
+            background-color: #333333;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" class="textbox" placeholder="Enter text here">
+        <div class="grid-outer-container">
+            <div class="grid-container" id="grid-container">
+                <!-- Grid items will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+    <script>
+        function createGridItems(n) {
+            const gridContainer = document.getElementById('grid-container');
+            for (let i = 1; i <= n; i++) {
+                const gridItem = document.createElement('div');
+                gridItem.className = 'grid-item';
+                gridItem.textContent = 'Item ' + i;
+                gridContainer.appendChild(gridItem);
+            }
+        }
+
+        // Create 50 grid items for testing
+        createGridItems(500);
+    </script>
+</body>
+</html>
