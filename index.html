@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Browser</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+</head>
+<body>
+    <h1>Files in S3 Bucket</h1>
+    <div id="other-content">
+        <p>This is other content on the page that should remain unaffected by the file explorer.</p>
+        <p>Random Number: <span id="random-number"></span></p>
+    </div>
+    <div class="breadcrumb" id="breadcrumb"></div>
+    <div class="grid-container" id="grid-container"></div>
+    <div id="file-preview">
+        <h2>File Preview</h2>
+        <div id="preview-content"></div>
+    </div>
+
+    <script>
+        const socket = io();
+
+        // Generate and display a random number
+        function generateRandomNumber() {
+            const randomNumber = Math.floor(Math.random() * 1000);
+            document.getElementById('random-number').innerText = randomNumber;
+        }
+
+        socket.on('connect', () => {
+            generateRandomNumber();
+            socket.emit('navigate', '');
+        });
+
+        socket.on('update_files', (data) => {
+            const { directories, files, path } = data;
+
+            const breadcrumb = document.getElementById('breadcrumb');
+            breadcrumb.innerHTML = `<a href="javascript:navigate('')">Home</a>`;
+            path.split('/').forEach((segment, index, arr) => {
+                if (segment) {
+                    const subPath = arr.slice(0, index + 1).join('/');
+                    breadcrumb.innerHTML += ` / <a href="javascript:navigate('${subPath}')">${segment}</a>`;
+                }
+            });
+
+            const gridContainer = document.getElementById('grid-container');
+            gridContainer.innerHTML = '';
+            directories.forEach(directory => {
+                const dirName = directory.split('/').slice(-2, -1)[0];
+                gridContainer.innerHTML += `<div class="grid-item"><a href="javascript:navigate('${directory}')">📁 ${dirName}</a></div>`;
+            });
+            files.forEach(file => {
+                const fileName = file.split('/').slice(-1)[0];
+                const fileExtension = fileName.split('.').slice(-1)[0];
+                let filePreviewFunction = '';
+                if (fileExtension === 'json' || fileExtension === 'wav') {
+                    filePreviewFunction = `javascript:previewFile('${file}')`;
+                }
+                gridContainer.innerHTML += `<div class="grid-item"><a href="${filePreviewFunction}">${fileName}</a></div>`;
+            });
+        });
+
+        function navigate(path) {
+            socket.emit('navigate', path);
+        }
+
+        function previewFile(fileKey) {
+            if (fileKey.endsWith('.json')) {
+                fetch(`/file_content?file_key=${encodeURIComponent(fileKey)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const previewContent = document.getElementById('preview-content');
+                        previewContent.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    })
+                    .catch(error => console.error('Error fetching file content:', error));
+            } else if (fileKey.endsWith('.wav')) {
+                const audio = new Audio(`/file_content?file_key=${encodeURIComponent(fileKey)}`);
+                audio.controls = true;
+                const previewContent = document.getElementById('preview-content');
+                previewContent.innerHTML = '';
+                previewContent.appendChild(audio);
+            }
+        }
+    </script>
+</body>
+</html>
