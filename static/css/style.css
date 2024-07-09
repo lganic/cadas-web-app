@@ -310,3 +310,10 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
     background-color: #0e0e0e;
     text-align: center;
 }
+
+.data-dictionary-table tr:nth-child(even) {
+    background-color: #3d3d3d;
+}
+.data-dictionary-table tr:nth-child(odd) {
+    background-color: #272727;
+}
