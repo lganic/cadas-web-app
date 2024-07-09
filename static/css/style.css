@@ -295,3 +295,18 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
     margin-left: 10px; /* Space between text and image */
 }
 
+.data-dictionary-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.data-dictionary-table, .data-dictionary-table th, .data-dictionary-table td {
+    border: 1px solid black;
+}
+.data-dictionary-table th, .data-dictionary-table td {
+    padding: 15px;
+    text-align: left;
+}
+.data-dictionary-table th {
+    background-color: #0e0e0e;
+    text-align: center;
+}
