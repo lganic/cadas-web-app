@@ -1,0 +1,13 @@
+/* styles.css */
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+}
+
+.mdl-ripple.is-animating {
+    transition: transform .7s cubic-bezier(0, 0, .2, 1), width .7s cubic-bezier(0, 0, .2, 1), height .7s cubic-bezier(0, 0, .2, 1), opacity .6s cubic-bezier(0, 0, .2, 1);
+    transition: transform .7s cubic-bezier(0, 0, .2, 1), width .7s cubic-bezier(0, 0, .2, 1), height .7s cubic-bezier(0, 0, .2, 1), opacity .6s cubic-bezier(0, 0, .2, 1), -webkit-transform .7s cubic-bezier(0, 0, .2, 1);
+}

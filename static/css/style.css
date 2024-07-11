@@ -1,8 +1,16 @@
+:root {
+    --color-light: #fafafa;
+    --color-semilight: #e4e5f1;
+    --color-normal: #d2d3db;
+    --color-semidark: #9394a5;
+    --color-dark: #484b6a;
+}
+
 .breadcrumb {
     margin: 10px;
     padding: 10px;
-    background-color: #252525;
-    border-bottom: 1px solid #ccc;
+    background-color: var(--color-normal);
+    border-bottom: 1px solid var(--color-normal);
     position: sticky;
     top: 0;
     left: 0;
@@ -13,23 +21,23 @@
 
 .breadcrumb a {
     text-decoration: none;
-    color: #ffffff;
-    background-color: #747474;
+    color: var(--color-dark);
+    background-color: var(--color-semilight);
     border-radius: 6px;
     padding: 5px;
     margin: 5px;
 }
 
 .breadcrumb a:hover {
-    background-color: #6a6a6a;
+    background-color: var(--color-normal);
 }
 
 #file-preview {
     margin-top: 20px;
     padding: 10px;
-    border: 1px solid #656565;
+    border: 1px solid var(--color-normal);
     border-radius: 10px;
-    background-color: #272727;
+    background-color: var(--color-semilight);
 }
 
 #preview-content {
@@ -40,8 +48,8 @@
 }
 
 body {
-    background-color: #121212;
-    color: #ffffff;
+    background-color: var(--color-light);
+    color: var(--color-dark);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,7 +62,7 @@ body {
     flex-direction: column;
     margin-top: 50px;
     margin-bottom: 50px;
-    background-color: #1f1f1f;
+    background-color: var(--color-semilight);
     border-radius: 15px;
     display: flex;
     flex-direction: column;
@@ -64,8 +72,8 @@ body {
 }
 
 .textbox {
-    background-color: #333333;
-    color: #ffffff;
+    background-color: var(--color-semilight);
+    color: var(--color-dark);
     border: none;
     padding: 15px;
     border-radius: 15px;
@@ -74,7 +82,7 @@ body {
     margin-bottom: 20px; /* Space between the textbox and grid container */
 }
 .grid-outer-container {
-    background-color: #252525;
+    background-color: var(--color-normal);
     border: #9c9c9c;
     padding: 20px;
     border-radius: 20px;
@@ -93,7 +101,7 @@ body {
 }
 
 .grid-item {
-    background-color: #333333;
+    background-color: var(--color-semidark);
     color: #ffffff;
     padding: 15px;
     border-radius: 15px;
