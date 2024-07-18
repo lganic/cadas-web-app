@@ -8,6 +8,8 @@
     width: 100%;
     z-index: 1000;
     box-sizing: border-box; /* Ensure padding and borders are included in the element's total width and height */
+    background-color: whitesmoke;
+    border-radius: 5px;
 }
 
 .breadcrumb a {
@@ -15,6 +17,7 @@
     border-radius: 6px;
     padding: 5px;
     margin: 5px;
+    background-color: lightgrey;
 }
 
 #file-preview {
@@ -48,8 +51,7 @@
 }
 
 .grid-item {
-    background-color: var(--color-semidark);
-    padding: 15px;
+    padding: 0px;
     border-radius: 15px;
     text-align: center;
 }
@@ -58,11 +60,31 @@
     text-decoration: none;
     display: block; /* Ensure the link is displayed as a block element */
     text-align: left;
+    background-color: whitesmoke;
+    border-radius: 15px;
+    border-style: solid;
+    border-width: thin;
+    border-color: rgb(0, 0, 0);
+}
+
+.grid-item p {
+    padding-left: 10px;
+    margin-bottom: 0;
+    color: black;
 }
 
 .grid-item img {
     display: block;
     margin: 0 auto 10px; /* Center the image and add some space below it */
+}
+
+.grid-item hr {
+    margin: 0;
+}
+
+.grid-item img {
+    margin-bottom: 0;
+    padding: 0;
 }
 
 @keyframes spin {
