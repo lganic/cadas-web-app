@@ -19,8 +19,12 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-            /* Color gradient background */
+            /* background: linear-gradient(135deg, #f5f7fa, #c3cfe2); */
+            background-image: linear-gradient(rgba(0, 111, 223, 0.2) 0%, rgb(15, 18, 20) 100%);
+            /* background-image: linear-gradient(rgba(0, 59, 117, 0.2) 0%, rgb(15, 18, 20) 100%); */
+            background-color: rgb(15, 18, 20);
+
+            font-family: 'Roboto', sans-serif;
         }
 
         .container {
@@ -29,15 +33,23 @@
             /* Adjust max-width for larger screens */
             margin: 20px auto;
             /* Center the container horizontally and add top margin */
-            margin-top: 90px;
             padding: 20px 20px 20px;
             /* Adjusted top padding to account for the fixed header */
-            background: #fff;
+            /* background: #fff; */
+            background: transparent;
             /* White background for the container */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             /* Add some shadow for depth */
-            border-radius: 8px;
-            /* Rounded corners */
+            /* border-radius: 8px; */ 
+
+        }
+
+        .container p {
+            color: rgb(182, 190, 201);
+        }
+
+        .container h1, h2, h3, h4, h5, h6{
+            color: rgb(246, 247, 248);
         }
 
 
@@ -105,13 +117,26 @@
             margin: auto;
             /* margin-left: 0; */
             border: 1px solid #b9b9b9;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 18px rgba(255, 255, 255, 0.2);
             margin-bottom: 50px;
+            background-color: rgb(18, 27, 36);
+        }
+
+        .mdl-card__media p {
+            color: rgb(182, 190, 201) !important;
+        }
+
+        .mdl-card__supporting-text{
+            color: rgb(182, 190, 201) !important;
+        }
+
+        .mdl-card__media h1, h2, h3, h4, h5, h6{
+            color: rgb(246, 247, 248) !important;
         }
 
         .mdl-card__media {
             padding: 10px;
-            background-color: white;
+            background-color: rgb(18, 27, 36);
         }
 
         .chart-container {
@@ -125,6 +150,7 @@
             /* Ensure the plotly graph inside the container also has rounded edges */
         }
         .loading-text{
+            color: white;
             font-size: 25px;
             padding: 10px;
         }
@@ -134,17 +160,6 @@
 
 <body>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-        <header class="mdl-layout__header">
-            <div class="mdl-layout__header-row">
-                <span class="mdl-layout-title">
-                    Data Catalog
-                </span>
-                <!-- <div class="mdl-layout-spacer"></div>
-          <button class="mdl-button mdl-js-button mdl-button--icon" id="hamburger-menu">
-            <i class="material-icons">menu</i>
-          </button>
-        </div> -->
-        </header>
         <main class="mdl-layout__content">
             <div class="container">
                 <h3>CADAS Data Catalog</h3>
@@ -273,59 +288,58 @@
                             });
                     }
 
-                    const layout = {
-                        height: 200,
-                        margin: { l: 20, r: 0, t: 35, b: 20 },
+                const layout = {
+                    height: 200,
+                    margin: { l: 20, r: 0, t: 35, b: 20 },
+                    title: {
+                        text: '',
+                        font: {
+                            family: 'Arial, sans-serif',
+                            size: 15,
+                            color: 'rgb(246, 247, 248)' // Matching h1, h2, etc. color
+                        }
+                    },
+                    barmode: 'stack',
+                    plot_bgcolor: 'rgb(18, 27, 36)', // Matching .mdl-card background color
+                    paper_bgcolor: 'rgb(12, 35, 63)', // Matching .mdl-card__media background color
+                    xaxis: {
                         title: {
-                            text: '',
+                            text: 'Date/Time',
                             font: {
                                 family: 'Arial, sans-serif',
-                                size: 15,
-                                color: '#333333'
+                                size: 12,
+                                color: 'rgb(246, 247, 248)' // Matching h1, h2, etc. color
                             }
                         },
-                        barmode: 'stack',
-                        paper_bgcolor: '#f5f5ff',
-                        plot_bgcolor: '#f5f5ff',
-                        xaxis: {
-                            title: {
-                                text: 'Date/Time',
-                                font: {
-                                    family: 'Arial, sans-serif',
-                                    size: 12,
-                                    color: '#333333'
-                                }
-                            },
-                            tickfont: {
-                                family: 'Arial, sans-serif',
-                                size: 10,
-                                color: '#333333'
-                            },
-                            gridcolor: '#cccccc',
-                            automargin: true
+                        tickfont: {
+                            family: 'Arial, sans-serif',
+                            size: 10,
+                            color: 'rgb(182, 190, 201)' // Matching .mdl-card__media p color
                         },
-                        yaxis: {
-                            title: {
-                                text: 'Number of Audio Clips',
-                                font: {
-                                    family: 'Arial, sans-serif',
-                                    size: 12,
-                                    color: '#333333'
-                                }
-                            },
-                            tickfont: {
+                        gridcolor: 'rgba(255, 255, 255, 0.2)', // Light gridlines to match overall style
+                        automargin: true
+                    },
+                    yaxis: {
+                        title: {
+                            text: 'Number of Audio Clips',
+                            font: {
                                 family: 'Arial, sans-serif',
-                                size: 10,
-                                color: '#333333'
-                            },
-                            gridcolor: '#cccccc',
-                            automargin: true
-
+                                size: 12,
+                                color: 'rgb(246, 247, 248)' // Matching h1, h2, etc. color
+                            }
                         },
-                        hovermode: 'closest',
-                        font: {
-                            color: '#333333'
-                        }
+                        tickfont: {
+                            family: 'Arial, sans-serif',
+                            size: 10,
+                            color: 'rgb(182, 190, 201)' // Matching .mdl-card__media p color
+                        },
+                        gridcolor: 'rgba(255, 255, 255, 0.2)', // Light gridlines to match overall style
+                        automargin: true
+                    },
+                    hovermode: 'closest',
+                    font: {
+                        color: 'rgb(246, 247, 248)' // Matching h1, h2, etc. color
+                    }
                     };
 
                     // Create multiple plots with the same layout but different data
