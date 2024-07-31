@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Page</title>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css" />
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
+
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-image: linear-gradient(135deg, rgba(8, 16, 96, 1) 0%, rgba(118, 2, 7, 1) 100%);
+            background-color: rgb(15, 18, 20);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+            /* Default text color for prominence */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            /* Adjust max-width for larger screens */
+            margin: 20px auto;
+            /* Center the container horizontally and add top margin */
+            padding: 20px 20px 20px;
+            /* Adjusted top padding to account for the fixed header */
+            /* background: #fff; */
+            background: transparent;
+            /* White background for the container */
+            /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Add some shadow for depth */
+            /* border-radius: 8px; */
+
+        }
+
+        .dataset {
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin: 5px 0;
+        }
+
+        .expand_content {
+            padding: 0 18px;
+            background-color: rgb(18, 27, 36);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+
+        .container p {
+            color: rgb(255, 255, 255);
+        }
+
+        .container h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: rgb(246, 247, 248);
+        }
+
+
+        header.mdl-layout__header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10;
+            /* Higher z-index to ensure it renders above other content */
+            backdrop-filter: blur(10px);
+            /* Blur effect for the header background */
+        }
+
+        main.mdl-layout__content {
+            z-index: 1;
+            /* Lower z-index to ensure it renders below the header */
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                /* Adjust width for tablets */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 100%;
+                /* Adjust width for mobile devices */
+                padding: 60px 10px 10px;
+                /* Adjust padding for mobile devices */
+            }
+
+            .mdl-layout__header-row .mdl-layout-title {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .mdl-layout__header-row .mdl-layout-title .date-published {
+                margin-left: 0;
+                margin-top: 5px;
+            }
+
+            button.mdl-button {
+                margin-top: 10px;
+            }
+        }
+
+        .mdl-card__title {
+            padding: 5px;
+            padding-bottom: 0;
+        }
+
+        .mdl-card__supporting-text {
+            padding: 5px;
+        }
+
+        .mdl-card__actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .mdl-card {
+            width: 90%;
+            margin: auto;
+            /* margin-left: 0; */
+            border: 1px solid #b9b9b9;
+            box-shadow: 0 6px 18px rgba(255, 255, 255, 0.2);
+            /* margin-bottom: 50px; */
+            background-color: rgb(18, 27, 36);
+            min-height: 0;
+        }
+
+        .mdl-card__media p {
+            color: rgb(182, 190, 201) !important;
+        }
+
+        .mdl-card__supporting-text {
+            color: rgb(182, 190, 201) !important;
+        }
+
+        .mdl-card__media h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: rgb(246, 247, 248) !important;
+        }
+
+        .mdl-card__media {
+            padding: 10px;
+            background-color: rgb(18, 27, 36);
+        }
+
+        .chart-container {
+            border-radius: 15px;
+            /* Adjust this value for more or less rounding */
+            overflow: hidden;
+        }
+
+        .plotly {
+            border-radius: 15px;
+            /* Ensure the plotly graph inside the container also has rounded edges */
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 25px;
+            padding: 10px;
+        }
+
+        .button-group a {
+            margin-left: 10px;
+            /* Adjust the value as needed */
+        }
+
+
+        .ai-powered-container {
+            text-align: center;
+        }
+
+        .ai-powered-input-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            /* Transparent white for background */
+            border: 2px solid #083064;
+            /* Blue color border */
+            border-radius: 8px;
+            padding: 20px 40px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 24px;
+            /* Increase font size for larger appearance */
+        }
+
+        .ai-powered-input-wrapper i {
+            margin-right: 20px;
+            font-size: 36px;
+            /* Increase icon size */
+            color: #7787e2;
+
+        }
+
+        .ai-powered-input-wrapper input {
+            border: none;
+            outline: none;
+            font-size: 24px;
+            /* Increase font size for input text */
+            flex-grow: 1;
+            background: transparent;
+            color: #fff;
+            /* White text color for prominence */
+        }
+
+        .ai-powered-input-wrapper input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            /* Lighter white for placeholder */
+        }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+<body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <main class="mdl-layout__content">
+            <div class="container">
+                <h2>CADAS Data Catalog</h2>
+                <hr>
+                <p>
+                    Welcome to the CADAS Data Catalog! Below is a list of all the datasets that are currently available to you. 
+
+                    <br>
+                    <br>
+
+                    Alternatively, use our AI features to browse for the dataset you are looking for!
+                </p>
+                <div class="ai-powered-container">
+                    <div class="ai-powered-input-wrapper">
+                        <i class="material-icons">smart_toy</i>
+                        <input type="text" placeholder="Talk to our data!">
+                    </div>
+                </div>
+                <h3>Curated Datasets</h3>
+                <p>
+                    These datasets are prepared by CADAS staff. They are organized to emphasize certain sensor
+                    deployments, or certain types of data. Click on a dataset for a brief description, or click
+                    "details" for an in depth look into the dataset as a whole!
+                </p>
+                <hr>
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 1 - </span><span
+                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 2 - </span><span
+                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 3 - </span><span
+                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 4 - </span><span
+                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 5 - </span><span
+                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 6 - </span><span
+                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+                <h3>Generated Datasets</h3>
+                <p>
+                    These datasets have been generated by skyscrape. 
+                </p>
+                <hr>
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 1 - </span><span
+                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 2 - </span><span
+                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 3 - </span><span
+                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 4 - </span><span
+                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 5 - </span><span
+                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 6 - </span><span
+                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+                <script>
+
+                    var coll = document.getElementsByClassName("collapsible");
+                    var i;
+
+                    for (i = 0; i < coll.length; i++) {
+                        coll[i].addEventListener("click", function () {
+                            this.classList.toggle("active");
+                            var content = this.querySelector('.expand_content');
+                            if (content.style.maxHeight) {
+                                content.style.maxHeight = null;
+                            } else {
+                                content.style.maxHeight = content.scrollHeight + "px";
+                            }
+                        });
+                    }
+
+                    function createPlot(elementId, dataUrl, chartTitle, layout) {
+                        const container = document.getElementById(elementId);
+                        const loadingText = container.querySelector('.loading-text');
+
+                        fetch(dataUrl)
+                            .then(response => response.json())
+                            .then(data => {
+                                var traces = data.categories.map((category, i) => ({
+                                    x: data.dates,
+                                    y: data.values[i],
+                                    name: category,
+                                    type: 'bar'
+                                }));
+
+                                // Clone the layout and set the title
+                                var customLayout = JSON.parse(JSON.stringify(layout));
+                                customLayout.title.text = chartTitle;
+
+                                Plotly.newPlot(elementId, traces, customLayout).then(() => {
+                                    loadingText.style.display = 'none';
+                                });
+                            });
+                    }
+
+                    const layout = {
+                        height: 200,
+                        margin: { l: 20, r: 0, t: 35, b: 20 },
+                        title: {
+                            text: '',
+                            font: {
+                                family: 'Arial, sans-serif',
+                                size: 15,
+                                color: 'rgb(246, 247, 248)' // Matching h1, h2, etc. color
+                            }
+                        },
+                        barmode: 'stack',
+                        plot_bgcolor: 'rgb(18, 27, 36)', // Matching .mdl-card background color
+                        paper_bgcolor: 'rgb(12, 35, 63)', // Matching .mdl-card__media background color
+                        xaxis: {
+                            title: {
+                                text: 'Date/Time',
+                                font: {
+                                    family: 'Arial, sans-serif',
+                                    size: 12,
+                                    color: 'rgb(246, 247, 248)' // Matching h1, h2, etc. color
+                                }
+                            },
+                            tickfont: {
+                                family: 'Arial, sans-serif',
+                                size: 10,
+                                color: 'rgb(182, 190, 201)' // Matching .mdl-card__media p color
+                            },
+                            gridcolor: 'rgba(255, 255, 255, 0.2)', // Light gridlines to match overall style
+                            automargin: true
+                        },
+                        yaxis: {
+                            title: {
+                                text: 'Number of Audio Clips',
+                                font: {
+                                    family: 'Arial, sans-serif',
+                                    size: 12,
+                                    color: 'rgb(246, 247, 248)' // Matching h1, h2, etc. color
+                                }
+                            },
+                            tickfont: {
+                                family: 'Arial, sans-serif',
+                                size: 10,
+                                color: 'rgb(182, 190, 201)' // Matching .mdl-card__media p color
+                            },
+                            gridcolor: 'rgba(255, 255, 255, 0.2)', // Light gridlines to match overall style
+                            automargin: true
+                        },
+                        hovermode: 'closest',
+                        font: {
+                            color: 'rgb(246, 247, 248)' // Matching h1, h2, etc. color
+                        }
+                    };
+
+                    // Create multiple plots with the same layout but different data
+                    createPlot('chart1', '/data/chart_data.json', "Chart 1", layout);
+                    createPlot('chart2', '/data/chart_data.json', "Blank Dataset Chart 1", layout);
+                    createPlot('chart3', '/data/chart_data.json', "Blank Dataset Chart 2", layout);
+                </script>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
