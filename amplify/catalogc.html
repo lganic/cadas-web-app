@@ -55,7 +55,7 @@
 
         .expand_content {
             padding: 0 18px;
-            background-color: rgb(18, 27, 36);
+            /* background-color: rgb(18, 27, 36); */
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.2s ease-out;
@@ -127,6 +127,7 @@
 
         .mdl-card__supporting-text {
             padding: 5px;
+            font-size:xx-small
         }
 
         .mdl-card__actions {
@@ -138,11 +139,13 @@
             width: 90%;
             margin: auto;
             /* margin-left: 0; */
-            border: 1px solid #b9b9b9;
-            box-shadow: 0 6px 18px rgba(255, 255, 255, 0.2);
-            /* margin-bottom: 50px; */
-            background-color: rgb(18, 27, 36);
+            border: 1px solid #313131;
+            /* box-shadow: 0 6px 18px rgba(255, 255, 255, 0.2); */
+            margin-bottom: 5px;
+            background-color: rgb(18, 27, 36, .6);
+            border-radius: 10px;
             min-height: 0;
+            padding-left: 30px;
         }
 
         .mdl-card__media p {
@@ -188,7 +191,10 @@
             margin-left: 10px;
             /* Adjust the value as needed */
         }
-
+        
+        .mdl-button {
+            background-color: rgb(255,255,255, 0.2) !important; 
+        }
 
         .ai-powered-container {
             text-align: center;
@@ -200,7 +206,7 @@
             justify-content: center;
             background-color: rgba(255, 255, 255, 0.1);
             /* Transparent white for background */
-            border: 2px solid #083064;
+            border: 2px solid rgb(83, 83, 83);
             /* Blue color border */
             border-radius: 8px;
             padding: 20px 40px;
@@ -267,8 +273,104 @@
                     <div class="title-buttons-wrapper"
                         style="display: flex; justify-content: space-between; align-items: center;">
                         <div style="display: inline-block;">
-                            <span style="color: rgb(255, 255, 255);">Dataset 1 - </span><span
-                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                            <span style="color: rgb(255, 255, 255);"><b>PADL Dataset</b></span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <button
+                                href="https://zenodo.org/record/5762098/files/PADL_data.zip?download=1"
+                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                Download
+                                <i class="material-icons">download</i>
+                                
+                            </button>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <div style="text-align: center;">
+                            <h4>
+                                <b>Physically-Augmented Deep Learning (PADL): Integration of Physical Context for Improved Seismic Event Discrimination</b>
+                            </h4>
+                            <div style="font-size: small;">
+                                <b>Authors:</b> 
+                                <i>
+                                    Solomon, Mitchell; Billouin, Micah; Chow, Kevin; Zeineddine, Jad; <br/>
+                                    Almaraz, Alex; Rangarajan, Anand; Smith, Anthony; Peter, Adrian
+                                </i>
+                            </div>
+                            <br/>
+                            <a href="https://doi.org/10.5281/zenodo.5762098"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5762098.svg" alt="DOI"></a>
+                        </div>
+                        <br/>
+                        <p>
+                            The PADL dataset is a collection of real and synthetic seismic waveforms generated from 3 types of explosions along with local 1D seismic velocity models of the sites of the explosions. This data was used to jointly train a multiview deep learning model where waveforms and velocity models are the different "views" given to the model. A synthetic-to-real transfer learning scheme was evaluated using this PADL model and data.
+                        </p>
+                        <!-- <img src="https://via.placeholder.com/150" alt="Recipe 1 Image"> -->
+                        <!-- <br> -->
+                    </div>
+                </div>
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Gunshot Dataset</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <!-- <a href="/data/dataset.zip"> -->
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <div style="text-align: center;">
+                            <h4>
+                                <b>A multi-firearm, multi-orientation audio dataset of gunshots</b>
+                            </h4>
+                            <div style="font-size: small;">
+                                <b>Authors:</b>
+                                <i>
+                                    Kabealo; Ruksana, Wyatt; Steven, Aravamudan; Akshay, Zhang; Xi, Acaron, David N.; <br/>
+                                    Dao; Mawaba P.; Elliott, David; Smith, Anthony O.; Otero, Carlos E.; Otero, Luis D.;<br/>
+                                    Anagnostopoulos, Georgios C.; Peter, Adrian M.; Jones, Wesley; Lam, Eric
+                                </i>
+                            </div>
+                            <a href="https://doi.org/10.5281/zenodo.7004819"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.7004819.svg" alt="DOI"></a>
+                        </div>
+                        <br/>
+                        <p>
+                            The PADL dataset is a collection of real and synthetic seismic waveforms generated from 3 types of explosions along with local 1D seismic velocity models of the sites of the explosions. This data was used to jointly train a multiview deep learning model where waveforms and velocity models are the different "views" given to the model. A synthetic-to-real transfer learning scheme was evaluated using this PADL model and data.
+                        </p>
+                        <!-- <img src="https://via.placeholder.com/150" alt="Recipe 1 Image"> -->
+                        <!-- <br> -->
+                    </div>
+                </div>
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 3</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
                         </div>
                         <div class="button-group">
                             <a href="/data/dataset.zip">
@@ -307,129 +409,8 @@
                     <div class="title-buttons-wrapper"
                         style="display: flex; justify-content: space-between; align-items: center;">
                         <div style="display: inline-block;">
-                            <span style="color: rgb(255, 255, 255);">Dataset 2 - </span><span
-                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
-                        </div>
-                        <div class="button-group">
-                            <a href="/data/dataset.zip">
-                                <button
-                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                                    Download
-                                    <i class="material-icons">download</i>
-                                </button>
-                            </a>
-                            <a href="/testing_dataset.html">
-                                <button
-                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                                    Details
-                                </button>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="expand_content">
-                        <br>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore
-                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                            nisi ut
-                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                            esse
-                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                            in
-                            culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
-                        <br>
-                    </div>
-                </div>
-
-
-                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
-                    <div class="title-buttons-wrapper"
-                        style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="display: inline-block;">
-                            <span style="color: rgb(255, 255, 255);">Dataset 3 - </span><span
-                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
-                        </div>
-                        <div class="button-group">
-                            <a href="/data/dataset.zip">
-                                <button
-                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                                    Download
-                                    <i class="material-icons">download</i>
-                                </button>
-                            </a>
-                            <a href="/testing_dataset.html">
-                                <button
-                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                                    Details
-                                </button>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="expand_content">
-                        <br>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore
-                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                            nisi ut
-                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                            esse
-                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                            in
-                            culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
-                        <br>
-                    </div>
-                </div>
-
-
-                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
-                    <div class="title-buttons-wrapper"
-                        style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="display: inline-block;">
-                            <span style="color: rgb(255, 255, 255);">Dataset 4 - </span><span
-                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
-                        </div>
-                        <div class="button-group">
-                            <a href="/data/dataset.zip">
-                                <button
-                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                                    Download
-                                    <i class="material-icons">download</i>
-                                </button>
-                            </a>
-                            <a href="/testing_dataset.html">
-                                <button
-                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                                    Details
-                                </button>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="expand_content">
-                        <br>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore
-                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                            nisi ut
-                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                            esse
-                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                            in
-                            culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
-                        <br>
-                    </div>
-                </div>
-
-
-
-                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
-                    <div class="title-buttons-wrapper"
-                        style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="display: inline-block;">
-                            <span style="color: rgb(255, 255, 255);">Dataset 5 - </span><span
-                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                            <span style="color: rgb(255, 255, 255);">Dataset 4</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
                         </div>
                         <div class="button-group">
                             <a href="/data/dataset.zip">
@@ -469,8 +450,49 @@
                     <div class="title-buttons-wrapper"
                         style="display: flex; justify-content: space-between; align-items: center;">
                         <div style="display: inline-block;">
-                            <span style="color: rgb(255, 255, 255);">Dataset 6 - </span><span
-                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                            <span style="color: rgb(255, 255, 255);">Dataset 5</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 6</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
                         </div>
                         <div class="button-group">
                             <a href="/data/dataset.zip">
@@ -513,8 +535,8 @@
                     <div class="title-buttons-wrapper"
                         style="display: flex; justify-content: space-between; align-items: center;">
                         <div style="display: inline-block;">
-                            <span style="color: rgb(255, 255, 255);">Dataset 1 - </span><span
-                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                            <span style="color: rgb(255, 255, 255);">Dataset 1</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
                         </div>
                         <div class="button-group">
                             <a href="/data/dataset.zip">
@@ -553,8 +575,8 @@
                     <div class="title-buttons-wrapper"
                         style="display: flex; justify-content: space-between; align-items: center;">
                         <div style="display: inline-block;">
-                            <span style="color: rgb(255, 255, 255);">Dataset 2 - </span><span
-                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                            <span style="color: rgb(255, 255, 255);">Dataset 2</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
                         </div>
                         <div class="button-group">
                             <a href="/data/dataset.zip">
@@ -593,8 +615,8 @@
                     <div class="title-buttons-wrapper"
                         style="display: flex; justify-content: space-between; align-items: center;">
                         <div style="display: inline-block;">
-                            <span style="color: rgb(255, 255, 255);">Dataset 3 - </span><span
-                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                            <span style="color: rgb(255, 255, 255);">Dataset 3</span>
+                            <span class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
                         </div>
                         <div class="button-group">
                             <a href="/data/dataset.zip">
@@ -633,49 +655,8 @@
                     <div class="title-buttons-wrapper"
                         style="display: flex; justify-content: space-between; align-items: center;">
                         <div style="display: inline-block;">
-                            <span style="color: rgb(255, 255, 255);">Dataset 4 - </span><span
-                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
-                        </div>
-                        <div class="button-group">
-                            <a href="/data/dataset.zip">
-                                <button
-                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                                    Download
-                                    <i class="material-icons">download</i>
-                                </button>
-                            </a>
-                            <a href="/testing_dataset.html">
-                                <button
-                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                                    Details
-                                </button>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="expand_content">
-                        <br>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore
-                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                            nisi ut
-                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                            esse
-                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                            in
-                            culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
-                        <br>
-                    </div>
-                </div>
-
-
-
-                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
-                    <div class="title-buttons-wrapper"
-                        style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="display: inline-block;">
-                            <span style="color: rgb(255, 255, 255);">Dataset 5 - </span><span
-                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                            <span style="color: rgb(255, 255, 255);">Dataset 4</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
                         </div>
                         <div class="button-group">
                             <a href="/data/dataset.zip">
@@ -715,8 +696,49 @@
                     <div class="title-buttons-wrapper"
                         style="display: flex; justify-content: space-between; align-items: center;">
                         <div style="display: inline-block;">
-                            <span style="color: rgb(255, 255, 255);">Dataset 6 - </span><span
-                                class="mdl-card__supporting-text">Last Updated: 2024-07-30</span>
+                            <span style="color: rgb(255, 255, 255);">Dataset 5</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 6</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
                         </div>
                         <div class="button-group">
                             <a href="/data/dataset.zip">

@@ -1,542 +1,880 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>File Browser</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Page</title>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css" />
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-</head>
 
-<body>
-    <div class="container">
-        <table class="header-table">
-            <tr>
-                <td class="title-cell">
-                    <h1 class="title">Sample Data View</h1>
-                </td>
-                <td class="button-cell">
-                    <a href="/data/dataset.zip" class="download-link">
-                        <button class="downloadbutton">
-                            Download!
-                            <img src="assets/images/download.png" alt="Download">
-                        </button>
-                    </a>
-                </td>
-            </tr>
-        </table>
-        <div id="other-content">
 
-            <h3>This is a dataset created for testing and example purposes.</h3>
 
-            <p>This is other content on the page that remains unaffected by the interactive elements.</p>
-            <p>To prove it, heres a random number: <span id="random-number"></span></p>
-            <p>If the number ever changes, it means this content was reloaded</p>
 
-            <div id="chart"></div>
-            <script>
-                fetch('/data/chart_data.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        var traces = data.categories.map((category, i) => ({
-                            x: data.dates,
-                            y: data.values[i],
-                            name: category,
-                            type: 'bar'
-                        }));
-
-                        var layout = {
-                            title: {
-                                text: 'Sample OpenSearch Graph',
-                                font: {
-                                    family: 'Arial, sans-serif',
-                                    size: 24,
-                                    color: '#e0e0e0'
-                                }
-                            },
-                            barmode: 'stack',
-                            paper_bgcolor: '#1e1e1e',
-                            plot_bgcolor: '#1e1e1e',
-                            xaxis: {
-                                title: {
-                                    text: 'Date/Time',
-                                    font: {
-                                        family: 'Arial, sans-serif',
-                                        size: 18,
-                                        color: '#e0e0e0'
-                                    }
-                                },
-                                tickfont: {
-                                    family: 'Arial, sans-serif',
-                                    size: 14,
-                                    color: '#e0e0e0'
-                                },
-                                gridcolor: '#444'
-                            },
-                            yaxis: {
-                                title: {
-                                    text: 'Number of Audio Clips',
-                                    font: {
-                                        family: 'Arial, sans-serif',
-                                        size: 18,
-                                        color: '#e0e0e0'
-                                    }
-                                },
-                                tickfont: {
-                                    family: 'Arial, sans-serif',
-                                    size: 14,
-                                    color: '#e0e0e0'
-                                },
-                                gridcolor: '#444'
-                            },
-                            hovermode: 'closest',
-                            font: {
-                                color: '#e0e0e0'
-                            }
-                        };
-
-                        Plotly.newPlot('chart', traces, layout);
-                    });
-            </script>
-
-            <p>Metadata View:</p>
-            <button class="collapsible">Click to view metadata format ▼</button>
-            <div class="content">
-                <pre class="prettyprint">{
-"doc_name": "0027daf0-2f3e-4c4d-9f56-adfc3c791b3f",  // Unique identifier for the document.
-"device": {  // Information about the device used to collect the data.
-    "device_manufacturer": "Raspberry Pi",  // The manufacturer of the device.
-    "device_model": "Zero W",  // The model of the device.
-    "device_hostname": "P4",  // The hostname assigned to the device.
-    "mac_address": "b8:27:eb:3f:fb:d6",  // The MAC address of the device.
-    "local_ip": "192.168.0.122",  // The local IP address of the device.
-    "global_ip": "163.118.203.162",  // The global IP address of the device.
-    "location": {  // Geographic location of the device.
-    "lat": 28.516925,  // Latitude of the device's location.
-    "lon": -80.798625  // Longitude of the device's location.
-    },
-    "location_precision": "manual"  // Precision of the location data (e.g., manual, GPS).
-},
-"filename": "0027daf0-2f3e-4c4d-9f56-adfc3c791b3f",  // Name of the file containing the audio data.
-"extension": "wav",  // File extension of the audio data.
-"data_type": "audio",  // Type of data contained in the file.
-"sample_rate": 44100.0,  // Sample rate of the audio data in Hz.
-"time": "2022-06-01T03:58:23Z",  // Timestamp of when the data was collected.
-"models": [  // List of machine learning models used for analysis.
-    "torchscript-AudiCBERT-0-ZeroData+_v28-noise_5-aug-hlr.pth"
-],
-"events": [  // List of detected events in the audio data.
-    {
-    "location": {  // Time location of the event in the audio clip.
-        "start": 0.0,  // Start time of the event in seconds.
-        "end": 2.0  // End time of the event in seconds.
-    },
-    "classifications": [  // Classifications assigned to the event.
-        "helicopter"
-    ],
-    "labels": [  // Labels assigned to the event.
-        "helicopter"
-    ],
-    "confidences": [  // Confidence scores for the classifications.
-        0.9058611989021301
-    ],
-    "inf_time": 1.7850589752197266,  // Inference time taken by the model for this event in seconds.
-    "model": "torchscript-AudiCBERT-0-ZeroData+_v28-noise_5-aug-hlr.pth"  // Machine learning model used for this event.
-    },
-    {
-    "location": {
-        "start": 2.0,
-        "end": 4.0
-    },
-    "classifications": [
-        "likely_helicopter",
-        "likely_airplane"
-    ],
-    "labels": [
-        "helicopter",
-        "airplane"
-    ],
-    "confidences": [
-        0.5074732303619385,
-        0.5979779362678528
-    ],
-    "inf_time": 0.9521715641021729,
-    "model": "torchscript-AudiCBERT-0-ZeroData+_v28-noise_5-aug-hlr.pth"
-    }
-],
-"volume": {  // Volume metrics of the audio data.
-    "rms": 2.02408766746521,  // Root mean square value of the audio volume.
-    "max": 7,  // Maximum volume level of the audio.
-    "min": -8  // Minimum volume level of the audio.
-},
-"processing": {  // Processing time metrics.
-    "proc_time": 10.489821672439575,  // Total processing time for the audio data in seconds.
-    "total_inf_time": 7.0844550132751465,  // Total inference time for all events in the audio data in seconds.
-    "spec_time": 3.383901834487915  // Time taken to compute the spectrogram in seconds.
-},
-"mic_name": "seeed-2mic-voicecard: bcm2835-i2s-wm8960-hifi wm8960-hifi-0 (hw:0,0)",  // Name and description of the microphone used to record the audio.
-"audio_length": 16.0,  // Length of the audio clip in seconds.
-"time_offset": 0.02463915945716709,  // Offset time for the audio recording.
-"num_events": 8  // Number of events detected in the audio clip.
-}
-                </pre>
-            </div>
-            <br>
-            <button class="collapsible">Click to view metadata dictionary ▼</button>
-            <div class="content">
-                <table class="data-dictionary-table">
-                    <tr>
-                        <th>Variable Name</th>
-                        <th>Data Type</th>
-                        <th>Example Value</th>
-                        <th>Description</th>
-                    </tr>
-                    <tr>
-                        <td>doc_name</td>
-                        <td>string</td>
-                        <td>0027daf0-2f3e-4c4d-9f56-adfc3c791b3f</td>
-                        <td>Unique identifier for the document</td>
-                    </tr>
-                    <tr>
-                        <td>device.device_manufacturer</td>
-                        <td>string</td>
-                        <td>Raspberry Pi</td>
-                        <td>The manufacturer of the device</td>
-                    </tr>
-                    <tr>
-                        <td>device.device_model</td>
-                        <td>string</td>
-                        <td>Zero W</td>
-                        <td>The model of the device</td>
-                    </tr>
-                    <tr>
-                        <td>device.device_hostname</td>
-                        <td>string</td>
-                        <td>P4</td>
-                        <td>The hostname assigned to the device</td>
-                    </tr>
-                    <tr>
-                        <td>device.mac_address</td>
-                        <td>string</td>
-                        <td>b8:27:eb:3f:fb:d6</td>
-                        <td>The MAC address of the device</td>
-                    </tr>
-                    <tr>
-                        <td>device.local_ip</td>
-                        <td>string</td>
-                        <td>192.168.0.122</td>
-                        <td>The local IP address of the device</td>
-                    </tr>
-                    <tr>
-                        <td>device.global_ip</td>
-                        <td>string</td>
-                        <td>163.118.203.162</td>
-                        <td>The global IP address of the device</td>
-                    </tr>
-                    <tr>
-                        <td>device.location.lat</td>
-                        <td>float</td>
-                        <td>28.516925</td>
-                        <td>Latitude of the device's location</td>
-                    </tr>
-                    <tr>
-                        <td>device.location.lon</td>
-                        <td>float</td>
-                        <td>-80.798625</td>
-                        <td>Longitude of the device's location</td>
-                    </tr>
-                    <tr>
-                        <td>device.location_precision</td>
-                        <td>string</td>
-                        <td>manual</td>
-                        <td>Precision of the location data (e.g., manual, GPS)</td>
-                    </tr>
-                    <tr>
-                        <td>filename</td>
-                        <td>string</td>
-                        <td>0027daf0-2f3e-4c4d-9f56-adfc3c791b3f</td>
-                        <td>Name of the file containing the audio data</td>
-                    </tr>
-                    <tr>
-                        <td>extension</td>
-                        <td>string</td>
-                        <td>wav</td>
-                        <td>File extension of the audio data</td>
-                    </tr>
-                    <tr>
-                        <td>data_type</td>
-                        <td>string</td>
-                        <td>audio</td>
-                        <td>Type of data contained in the file</td>
-                    </tr>
-                    <tr>
-                        <td>sample_rate</td>
-                        <td>float</td>
-                        <td>44100.0</td>
-                        <td>Sample rate of the audio data in Hz</td>
-                    </tr>
-                    <tr>
-                        <td>time</td>
-                        <td>string</td>
-                        <td>2022-06-01T03:58:23Z</td>
-                        <td>Timestamp of when the data was collected</td>
-                    </tr>
-                    <tr>
-                        <td>models</td>
-                        <td>array</td>
-                        <td>["torchscript-AudiCBERT-0-ZeroData+_v28-noise_5-aug-hlr.pth"]</td>
-                        <td>List of machine learning models used for analysis</td>
-                    </tr>
-                    <tr>
-                        <td>events.location.start</td>
-                        <td>float</td>
-                        <td>0.0</td>
-                        <td>Start time of the event in seconds</td>
-                    </tr>
-                    <tr>
-                        <td>events.location.end</td>
-                        <td>float</td>
-                        <td>2.0</td>
-                        <td>End time of the event in seconds</td>
-                    </tr>
-                    <tr>
-                        <td>events.classifications</td>
-                        <td>array</td>
-                        <td>["helicopter"]</td>
-                        <td>Classifications assigned to the event</td>
-                    </tr>
-                    <tr>
-                        <td>events.labels</td>
-                        <td>array</td>
-                        <td>["helicopter"]</td>
-                        <td>Labels assigned to the event</td>
-                    </tr>
-                    <tr>
-                        <td>events.confidences</td>
-                        <td>array</td>
-                        <td>[0.9058611989021301]</td>
-                        <td>Confidence scores for the classifications</td>
-                    </tr>
-                    <tr>
-                        <td>events.inf_time</td>
-                        <td>float</td>
-                        <td>1.7850589752197266</td>
-                        <td>Inference time taken by the model for this event in seconds</td>
-                    </tr>
-                    <tr>
-                        <td>events.model</td>
-                        <td>string</td>
-                        <td>torchscript-AudiCBERT-0-ZeroData+_v28-noise_5-aug-hlr.pth</td>
-                        <td>Machine learning model used for this event</td>
-                    </tr>
-                    <tr>
-                        <td>volume.rms</td>
-                        <td>float</td>
-                        <td>2.02408766746521</td>
-                        <td>Root mean square value of the audio volume</td>
-                    </tr>
-                    <tr>
-                        <td>volume.max</td>
-                        <td>int</td>
-                        <td>7</td>
-                        <td>Maximum volume level of the audio</td>
-                    </tr>
-                    <tr>
-                        <td>volume.min</td>
-                        <td>int</td>
-                        <td>-8</td>
-                        <td>Minimum volume level of the audio</td>
-                    </tr>
-                    <tr>
-                        <td>processing.proc_time</td>
-                        <td>float</td>
-                        <td>10.489821672439575</td>
-                        <td>Total processing time for the audio data in seconds</td>
-                    </tr>
-                    <tr>
-                        <td>processing.total_inf_time</td>
-                        <td>float</td>
-                        <td>7.0844550132751465</td>
-                        <td>Total inference time for all events in the audio data in seconds</td>
-                    </tr>
-                    <tr>
-                        <td>processing.spec_time</td>
-                        <td>float</td>
-                        <td>3.383901834487915</td>
-                        <td>Time taken to compute the spectrogram in seconds</td>
-                    </tr>
-                    <tr>
-                        <td>mic_name</td>
-                        <td>string</td>
-                        <td>seeed-2mic-voicecard: bcm2835-i2s-wm8960-hifi wm8960-hifi-0 (hw:0,0)</td>
-                        <td>Name and description of the microphone used to record the audio</td>
-                    </tr>
-                    <tr>
-                        <td>audio_length</td>
-                        <td>float</td>
-                        <td>16.0</td>
-                        <td>Length of the audio clip in seconds</td>
-                    </tr>
-                    <tr>
-                        <td>time_offset</td>
-                        <td>float</td>
-                        <td>0.02463915945716709</td>
-                        <td>Offset time for the audio recording</td>
-                    </tr>
-                    <tr>
-                        <td>num_events</td>
-                        <td>int</td>
-                        <td>8</td>
-                        <td>Number of events detected in the audio clip</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        &nbsp;
-        <div class="grid-outer-container" id="gridbox">
-            <div class="breadcrumb" id="breadcrumb"></div>
-            <div class="grid-container" id="grid-container"></div>
-            <div id="loading-spinner" class="spinner"></div>
-        </div>
-        <div id="file-preview">
-            <h2 id="file-preview-header">Click a file to show a preview</h2>
-            <div id="preview-content"></div>
-        </div>
-    </div>
-
-    <script>
-        // Generate and display a random number
-        function generateRandomNumber() {
-            const randomNumber = Math.floor(Math.random() * 1000);
-            document.getElementById('random-number').innerText = randomNumber;
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-image: linear-gradient(135deg, rgba(8, 16, 96, 1) 0%, rgba(118, 2, 7, 1) 100%);
+            background-color: rgb(15, 18, 20);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+            /* Default text color for prominence */
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            navigate('');
-        });
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            /* Adjust max-width for larger screens */
+            margin: 20px auto;
+            /* Center the container horizontally and add top margin */
+            padding: 20px 20px 20px;
+            /* Adjusted top padding to account for the fixed header */
+            /* background: #fff; */
+            background: transparent;
+            /* White background for the container */
+            /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Add some shadow for depth */
+            /* border-radius: 8px; */
 
-        function navigate(path) {
-            // Clear existing folders
-            document.getElementById('grid-container').innerHTML = '';
-
-            // Show loading spinner
-            document.getElementById('loading-spinner').style.display = 'block';
-
-            fetch(`https://vzsbevel8h.execute-api.us-east-2.amazonaws.com/dev/DataCatalogFileLister?path=${encodeURIComponent(path)}`)
-                .then(response => response.json())
-                .then(data => {
-                    const { directories, files, total_files } = data;
-
-                    // Hide loading spinner
-                    document.getElementById('loading-spinner').style.display = 'none';
-
-                    const breadcrumb = document.getElementById('breadcrumb');
-                    const fileCount = files.length;
-                    const folderCount = directories.length;
-
-                    breadcrumb.innerHTML = `<a href="javascript:navigate('')">Home</a>`;
-                    path.split('/').forEach((segment, index, arr) => {
-                        if (segment) {
-                            const subPath = arr.slice(0, index + 1).join('/');
-                            breadcrumb.innerHTML += ` ▶ <a href="javascript:navigate('${subPath}')">${segment}</a>`;
-                        }
-                    });
-
-                    breadcrumb.innerHTML += ` (${fileCount} files, ${folderCount} directories)`;
-
-                    if (total_files > 200) {
-                        breadcrumb.innerHTML += ` <span style="color: red;">Showing first 200 files out of ${total_files}</span>`;
-                    }
-
-                    const gridContainer = document.getElementById('grid-container');
-                    gridContainer.innerHTML = '';
-                    directories.forEach(directory => {
-                        const dirName = directory.split('/').slice(-2, -1)[0];
-                        gridContainer.innerHTML += `<div class="grid-item"><a href="javascript:navigate('${directory}')"><img src="assets/images/folder.png" alt="Folder"><hr>${dirName}</a></div>`;
-                    });
-                    files.forEach(file => {
-                        const fileName = file.split('/').slice(-1)[0];
-                        const fileExtension = fileName.split('.').slice(-1)[0];
-                        let filePreviewFunction = '';
-                        if (fileExtension === 'json' || fileExtension === 'wav') {
-                            filePreviewFunction = `javascript:previewFile('${file}')`;
-                        }
-                        let imgSrc = '';
-                        if (fileExtension === 'json') {
-                            imgSrc = 'assets/images/data.png';
-                        } else if (fileExtension === 'wav') {
-                            imgSrc = 'assets/images/music.png';
-                        } else {
-                            imgSrc = 'assets/images/file.png';
-                        }
-                        gridContainer.innerHTML += `<div class="grid-item"><a href="${filePreviewFunction}"><img src="${imgSrc}" alt="File"><hr>${fileName}</a></div>`;
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching file list:', error);
-                    // Hide loading spinner
-                    document.getElementById('loading-spinner').style.display = 'none';
-                });
         }
 
-        function previewFile(fileKey) {
-            updatePreviewHeader(fileKey);
-            const previewContent = document.getElementById('preview-content');
-            previewContent.innerHTML = "Loading ..."
-            if (fileKey.endsWith('.json')) {
-                fetch(`https://vzsbevel8h.execute-api.us-east-2.amazonaws.com/dev/DataCatalogFileGetter?file_key=${encodeURIComponent(fileKey)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        previewContent.innerHTML = `<pre class="prettyprint">${JSON.stringify(data, null, 2)}</pre>`;
-                        PR.prettyPrint();
-                        scrollToPreview();
-                    })
-                    .catch(error => console.error('Error fetching file content:', error));
-            } else if (fileKey.endsWith('.wav')) {
-                fetch(`https://vzsbevel8h.execute-api.us-east-2.amazonaws.com/dev/DataCatalogFileGetter?file_key=${encodeURIComponent(fileKey)}`)
-                    .then(response => response.blob())
-                    .then(blob => {
-                        const audioUrl = URL.createObjectURL(blob);
-                        const audio = new Audio(audioUrl);
-                        audio.controls = true;
-                        previewContent.innerHTML = '';
-                        previewContent.appendChild(audio);
-                        scrollToPreview();
-                    })
-                    .catch(error => console.error('Error fetching file content:', error));
+        .dataset {
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin: 5px 0;
+        }
+
+        .expand_content {
+            padding: 0 18px;
+            /* background-color: rgb(18, 27, 36); */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+
+        .container p {
+            color: rgb(255, 255, 255);
+        }
+
+        .container h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: rgb(246, 247, 248);
+        }
+
+
+        header.mdl-layout__header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10;
+            /* Higher z-index to ensure it renders above other content */
+            backdrop-filter: blur(10px);
+            /* Blur effect for the header background */
+        }
+
+        main.mdl-layout__content {
+            z-index: 1;
+            /* Lower z-index to ensure it renders below the header */
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                /* Adjust width for tablets */
             }
         }
 
-        function updatePreviewHeader(fileKey) {
-            const previewHeader = document.getElementById('file-preview-header');
-            previewHeader.innerText = `File Preview: ${fileKey}`;
+        @media (max-width: 480px) {
+            .container {
+                width: 100%;
+                /* Adjust width for mobile devices */
+                padding: 60px 10px 10px;
+                /* Adjust padding for mobile devices */
+            }
+
+            .mdl-layout__header-row .mdl-layout-title {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .mdl-layout__header-row .mdl-layout-title .date-published {
+                margin-left: 0;
+                margin-top: 5px;
+            }
+
+            button.mdl-button {
+                margin-top: 10px;
+            }
         }
 
-        function scrollToPreview() {
-            const filePreview = document.getElementById('file-preview');
-            filePreview.scrollIntoView({ behavior: 'smooth' });
+        .mdl-card__title {
+            padding: 5px;
+            padding-bottom: 0;
         }
 
-
-
-        // Setup the collapsible elements
-        var coll = document.getElementsByClassName("collapsible");
-        var i;
-
-        for (i = 0; i < coll.length; i++) {
-            coll[i].addEventListener("click", function () {
-                this.classList.toggle("active");
-                var content = this.nextElementSibling;
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                }
-            });
+        .mdl-card__supporting-text {
+            padding: 5px;
+            font-size:xx-small
         }
-    </script>
+
+        .mdl-card__actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .mdl-card {
+            width: 90%;
+            margin: auto;
+            /* margin-left: 0; */
+            border: 1px solid #313131;
+            /* box-shadow: 0 6px 18px rgba(255, 255, 255, 0.2); */
+            margin-bottom: 5px;
+            background-color: rgb(18, 27, 36, .6);
+            border-radius: 10px;
+            min-height: 0;
+            padding-left: 30px;
+        }
+
+        .mdl-card__media p {
+            color: rgb(182, 190, 201) !important;
+        }
+
+        .mdl-card__supporting-text {
+            color: rgb(182, 190, 201) !important;
+        }
+
+        .mdl-card__media h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: rgb(246, 247, 248) !important;
+        }
+
+        .mdl-card__media {
+            padding: 10px;
+            background-color: rgb(18, 27, 36);
+        }
+
+        .chart-container {
+            border-radius: 15px;
+            /* Adjust this value for more or less rounding */
+            overflow: hidden;
+        }
+
+        .plotly {
+            border-radius: 15px;
+            /* Ensure the plotly graph inside the container also has rounded edges */
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 25px;
+            padding: 10px;
+        }
+
+        .button-group a {
+            margin-left: 10px;
+            /* Adjust the value as needed */
+        }
+        
+        .mdl-button {
+            background-color: rgb(255,255,255, 0.2) !important; 
+        }
+
+        .ai-powered-container {
+            text-align: center;
+        }
+
+        .ai-powered-input-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            /* Transparent white for background */
+            border: 2px solid rgb(83, 83, 83);
+            /* Blue color border */
+            border-radius: 8px;
+            padding: 20px 40px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 24px;
+            /* Increase font size for larger appearance */
+        }
+
+        .ai-powered-input-wrapper i {
+            margin-right: 20px;
+            font-size: 36px;
+            /* Increase icon size */
+            color: #7787e2;
+
+        }
+
+        .ai-powered-input-wrapper input {
+            border: none;
+            outline: none;
+            font-size: 24px;
+            /* Increase font size for input text */
+            flex-grow: 1;
+            background: transparent;
+            color: #fff;
+            /* White text color for prominence */
+        }
+
+        .ai-powered-input-wrapper input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            /* Lighter white for placeholder */
+        }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+<body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <main class="mdl-layout__content">
+            <div class="container">
+                <h2>CADAS Data Catalog</h2>
+                <hr>
+                <p>
+                    Welcome to the CADAS Data Catalog! Below is a list of all the datasets that are currently available to you. 
+
+                    <br>
+                    <br>
+
+                    Alternatively, use our AI features to browse for the dataset you are looking for!
+                </p>
+                <div class="ai-powered-container">
+                    <div class="ai-powered-input-wrapper">
+                        <i class="material-icons">smart_toy</i>
+                        <input type="text" placeholder="Talk to our data!">
+                    </div>
+                </div>
+                <h3>Curated Datasets</h3>
+                <p>
+                    These datasets are prepared by CADAS staff. They are organized to emphasize certain sensor
+                    deployments, or certain types of data. Click on a dataset for a brief description, or click
+                    "details" for an in depth look into the dataset as a whole!
+                </p>
+                <hr>
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);"><b>PADL Dataset</b></span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <button
+                                href="https://zenodo.org/record/5762098/files/PADL_data.zip?download=1"
+                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                Download
+                                <i class="material-icons">download</i>
+                                
+                            </button>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <div style="text-align: center;">
+                            <h4>
+                                <b>Physically-Augmented Deep Learning (PADL): Integration of Physical Context for Improved Seismic Event Discrimination</b>
+                            </h4>
+                            <div style="font-size: small;">
+                                <b>Authors:</b> 
+                                <i>
+                                    Solomon, Mitchell; Billouin, Micah; Chow, Kevin; Zeineddine, Jad; <br/>
+                                    Almaraz, Alex; Rangarajan, Anand; Smith, Anthony; Peter, Adrian
+                                </i>
+                            </div>
+                            <br/>
+                            <a href="https://doi.org/10.5281/zenodo.5762098"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5762098.svg" alt="DOI"></a>
+                        </div>
+                        <br/>
+                        <p>
+                            The PADL dataset is a collection of real and synthetic seismic waveforms generated from 3 types of explosions along with local 1D seismic velocity models of the sites of the explosions. This data was used to jointly train a multiview deep learning model where waveforms and velocity models are the different "views" given to the model. A synthetic-to-real transfer learning scheme was evaluated using this PADL model and data.
+                        </p>
+                        <!-- <img src="https://via.placeholder.com/150" alt="Recipe 1 Image"> -->
+                        <!-- <br> -->
+                    </div>
+                </div>
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Gunshot Dataset</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <!-- <a href="/data/dataset.zip"> -->
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <div style="text-align: center;">
+                            <h4>
+                                <b>A multi-firearm, multi-orientation audio dataset of gunshots</b>
+                            </h4>
+                            <div style="font-size: small;">
+                                <b>Authors:</b>
+                                <i>
+                                    Kabealo; Ruksana, Wyatt; Steven, Aravamudan; Akshay, Zhang; Xi, Acaron, David N.; <br/>
+                                    Dao; Mawaba P.; Elliott, David; Smith, Anthony O.; Otero, Carlos E.; Otero, Luis D.;<br/>
+                                    Anagnostopoulos, Georgios C.; Peter, Adrian M.; Jones, Wesley; Lam, Eric
+                                </i>
+                            </div>
+                            <a href="https://doi.org/10.5281/zenodo.7004819"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.7004819.svg" alt="DOI"></a>
+                        </div>
+                        <br/>
+                        <p>
+                            The PADL dataset is a collection of real and synthetic seismic waveforms generated from 3 types of explosions along with local 1D seismic velocity models of the sites of the explosions. This data was used to jointly train a multiview deep learning model where waveforms and velocity models are the different "views" given to the model. A synthetic-to-real transfer learning scheme was evaluated using this PADL model and data.
+                        </p>
+                        <!-- <img src="https://via.placeholder.com/150" alt="Recipe 1 Image"> -->
+                        <!-- <br> -->
+                    </div>
+                </div>
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 3</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 4</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 5</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 6</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+                <h3>Generated Datasets</h3>
+                <p>
+                    These datasets have been generated by skyscrape. 
+                </p>
+                <hr>
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 1</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 2</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 3</span>
+                            <span class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 4</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 5</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+
+
+                <div class="dataset collapsible mdl-card mdl-shadow--2dp">
+                    <div class="title-buttons-wrapper"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: inline-block;">
+                            <span style="color: rgb(255, 255, 255);">Dataset 6</span><span
+                                class="mdl-card__supporting-text" style="font-style: italic">Updated: 2024-07-30</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="/data/dataset.zip">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Download
+                                    <i class="material-icons">download</i>
+                                </button>
+                            </a>
+                            <a href="/testing_dataset.html">
+                                <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Details
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="expand_content">
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore
+                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                            esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                            in
+                            culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <img src="https://via.placeholder.com/150" alt="Recipe 1 Image">
+                        <br>
+                    </div>
+                </div>
+
+                <script>
+
+                    var coll = document.getElementsByClassName("collapsible");
+                    var i;
+
+                    for (i = 0; i < coll.length; i++) {
+                        coll[i].addEventListener("click", function () {
+                            this.classList.toggle("active");
+                            var content = this.querySelector('.expand_content');
+                            if (content.style.maxHeight) {
+                                content.style.maxHeight = null;
+                            } else {
+                                content.style.maxHeight = content.scrollHeight + "px";
+                            }
+                        });
+                    }
+
+                    function createPlot(elementId, dataUrl, chartTitle, layout) {
+                        const container = document.getElementById(elementId);
+                        const loadingText = container.querySelector('.loading-text');
+
+                        fetch(dataUrl)
+                            .then(response => response.json())
+                            .then(data => {
+                                var traces = data.categories.map((category, i) => ({
+                                    x: data.dates,
+                                    y: data.values[i],
+                                    name: category,
+                                    type: 'bar'
+                                }));
+
+                                // Clone the layout and set the title
+                                var customLayout = JSON.parse(JSON.stringify(layout));
+                                customLayout.title.text = chartTitle;
+
+                                Plotly.newPlot(elementId, traces, customLayout).then(() => {
+                                    loadingText.style.display = 'none';
+                                });
+                            });
+                    }
+
+                    const layout = {
+                        height: 200,
+                        margin: { l: 20, r: 0, t: 35, b: 20 },
+                        title: {
+                            text: '',
+                            font: {
+                                family: 'Arial, sans-serif',
+                                size: 15,
+                                color: 'rgb(246, 247, 248)' // Matching h1, h2, etc. color
+                            }
+                        },
+                        barmode: 'stack',
+                        plot_bgcolor: 'rgb(18, 27, 36)', // Matching .mdl-card background color
+                        paper_bgcolor: 'rgb(12, 35, 63)', // Matching .mdl-card__media background color
+                        xaxis: {
+                            title: {
+                                text: 'Date/Time',
+                                font: {
+                                    family: 'Arial, sans-serif',
+                                    size: 12,
+                                    color: 'rgb(246, 247, 248)' // Matching h1, h2, etc. color
+                                }
+                            },
+                            tickfont: {
+                                family: 'Arial, sans-serif',
+                                size: 10,
+                                color: 'rgb(182, 190, 201)' // Matching .mdl-card__media p color
+                            },
+                            gridcolor: 'rgba(255, 255, 255, 0.2)', // Light gridlines to match overall style
+                            automargin: true
+                        },
+                        yaxis: {
+                            title: {
+                                text: 'Number of Audio Clips',
+                                font: {
+                                    family: 'Arial, sans-serif',
+                                    size: 12,
+                                    color: 'rgb(246, 247, 248)' // Matching h1, h2, etc. color
+                                }
+                            },
+                            tickfont: {
+                                family: 'Arial, sans-serif',
+                                size: 10,
+                                color: 'rgb(182, 190, 201)' // Matching .mdl-card__media p color
+                            },
+                            gridcolor: 'rgba(255, 255, 255, 0.2)', // Light gridlines to match overall style
+                            automargin: true
+                        },
+                        hovermode: 'closest',
+                        font: {
+                            color: 'rgb(246, 247, 248)' // Matching h1, h2, etc. color
+                        }
+                    };
+
+                    // Create multiple plots with the same layout but different data
+                    createPlot('chart1', '/data/chart_data.json', "Chart 1", layout);
+                    createPlot('chart2', '/data/chart_data.json', "Blank Dataset Chart 1", layout);
+                    createPlot('chart3', '/data/chart_data.json', "Blank Dataset Chart 2", layout);
+                </script>
+            </div>
+        </main>
+    </div>
 </body>
 
 </html>
