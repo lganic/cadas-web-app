@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keycloak Auth Demo</title>
+</head>
+<body>
+    <h1>Keycloak Authentication Demo</h1>
+    
+    <button id="login-button">Login with Keycloak</button>
+    <button id="make-request-button" disabled>Make API Request</button>
+    <button id="logout-button" style="display:none;">Logout</button>
+
+    <div id="result"></div>
+    <div id="jwt-token" style="white-space: pre-wrap; word-wrap: break-word;"></div>
+
+    <script src="https://keycloak.cadas.ai/js/keycloak.js"></script>
+    <script>
+        console.log('Establishing keycloak...');
+        const keycloak = new Keycloak({
+            url: 'https://keycloak.cadas.ai',   // Replace with your Keycloak domain
+            realm: 'master',                   // Replace with your realm
+            clientId: 'catalog-client'         // Replace with your client ID
+        });
+
+        // Function to handle login
+        document.getElementById('login-button').onclick = function() {
+            console.log('Attempting login');
+            keycloak.init({ onLoad: 'login-required' }).then(function(authenticated) {
+                if (authenticated) {
+                    document.getElementById('login-button').style.display = 'none';
+                    document.getElementById('make-request-button').disabled = false;
+                    document.getElementById('logout-button').style.display = 'block';
+                    document.getElementById('result').textContent = "Logged in as: " + keycloak.tokenParsed.preferred_username;
+
+                    // Display the JWT token
+                    document.getElementById('jwt-token').textContent = "JWT Token:\n" + keycloak.token;
+
+                } else {
+                    document.getElementById('result').textContent = "Failed to authenticate.";
+                }
+            }).catch(function() {
+                document.getElementById('result').textContent = "Failed to initialize Keycloak.";
+            });
+        };
+
+        // Function to make an API request
+        document.getElementById('make-request-button').onclick = function() {
+            console.log('Making API request with JWT:', keycloak.token);
+            fetch('https://f0mfq6vqc0.execute-api.us-east-2.amazonaws.com/test', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + keycloak.token
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('API request failed with status ' + response.status);
+                }
+            })
+            .then(data => {
+                document.getElementById('result').textContent = "API request successful: " + data.message;
+            })
+            .catch(error => {
+                document.getElementById('result').textContent = "API request failed: " + error.message;
+            });
+        };
+    </script>
+</body>
+</html>
